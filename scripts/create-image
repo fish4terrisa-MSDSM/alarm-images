@@ -33,7 +33,7 @@ rpi_url="http://os.archlinuxarm.org/os/"
 size="${2:-8G}"
 arch="${1:-armv7}"
 image="rpi-${arch}-archlinux.img"
-file="ArchLinuxARM-rpi-aarch64-latest.tar.gz
+file="ArchLinuxARM-rpi-aarch64-latest.tar.gz"
 loopdev=
 
 # Tasks to run when the shell exits for any reason, unmount the image and
