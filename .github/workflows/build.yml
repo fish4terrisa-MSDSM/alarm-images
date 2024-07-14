@@ -24,7 +24,7 @@ jobs:
       
       - name: Build Raspberry Pi 3 AArch64 Image
         run: |
-          sudo bash create-image aarch64 8G
+          sudo bash create-image aarch64 2G
           sudo cp rpi-aarch64-archlinux.img rpi-3-aarch64-archlinux.img
           zip -v rpi-3-aarch64-archlinux.img.zip rpi-3-aarch64-archlinux.img
 
