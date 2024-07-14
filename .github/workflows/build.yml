@@ -20,54 +20,19 @@ jobs:
       # Note: Uploading zip file artifact will be double zip. Do not delete .img file
       # See https://github.com/actions/upload-artifact#zipped-artifact-downloads
 
-      - name: Build Raspberry Pi 2 Armv7 Image
-        run: |
-          sudo bash create-image armv7 8G
-          sudo cp rpi-armv7-archlinux.img rpi-2-armv7-archlinux.img
-          zip -v rpi-2-armv7-archlinux.img.zip rpi-2-armv7-archlinux.img
-
-      - name: Build Raspberry Pi 3 Armv7 Image
-        run: |
-          sudo cp rpi-armv7-archlinux.img rpi-3-armv7-archlinux.img
-          zip -v rpi-3-armv7-archlinux.img.zip rpi-3-armv7-archlinux.img
-
-      - name: Build Raspberry Pi 4 Armv7 Image
-        run: |
-          sudo cp rpi-armv7-archlinux.img rpi-4-armv7-archlinux.img
-          zip -v rpi-4-armv7-archlinux.img.zip rpi-4-armv7-archlinux.img
-
+      
+      
       - name: Build Raspberry Pi 3 AArch64 Image
         run: |
           sudo bash create-image aarch64 8G
           sudo cp rpi-aarch64-archlinux.img rpi-3-aarch64-archlinux.img
           zip -v rpi-3-aarch64-archlinux.img.zip rpi-3-aarch64-archlinux.img
 
-      - name: Build Raspberry Pi 4 AArch64 Image
-        run: |
-          sudo cp rpi-aarch64-archlinux.img rpi-4-aarch64-archlinux.img
-          mkdir root
-          loopdev=$(sudo losetup --find --show rpi-4-aarch64-archlinux.img)
-          rootdev=$(sudo ls "${loopdev}"*2)
-          sudo mount "${rootdev}" root
-          sudo sed -i 's/mmcblk0/mmcblk1/g' root/etc/fstab
-          sudo umount root
-          sudo rmdir root
-          zip -v rpi-4-aarch64-archlinux.img.zip rpi-4-aarch64-archlinux.img
 
 
       # Upload artifacts
 
-      - name: Upload Raspberry Pi 2 Armv7 Image artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: rpi-2-armv7-archlinux.img
-          path: rpi-2-armv7-archlinux.img
-
-      - name: Upload Raspberry Pi 3 Armv7 Image artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: rpi-3-armv7-archlinux.img
-          path: rpi-3-armv7archlinux.img
+      
 
       - name: Upload Raspberry Pi 3 AArch64 Image artifact
         uses: actions/upload-artifact@v2
@@ -75,17 +40,7 @@ jobs:
           name: rpi-3-aarch64-archlinux.img
           path: rpi-3-aarch64-archlinux.img
 
-      - name: Upload Raspberry Pi 4 Armv7 Image artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: rpi-4-armv7-archlinux.img
-          path: rpi-4-armv7-archlinux.img
-
-      - name: Upload Raspberry Pi 4 AArch64 Image artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: rpi-4-aarch64-archlinux.img
-          path: rpi-4-aarch64-archlinux.img
+      
 
       # Upload to release
       - name: Upload images to release
@@ -93,11 +48,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            rpi-archlinux.img.zip
-            rpi-2-armv7-archlinux.img.zip
-            rpi-3-armv7-archlinux.img.zip
             rpi-3-aarch64-archlinux.img.zip
-            rpi-4-armv7-archlinux.img.zip
-            rpi-4-aarch64-archlinux.img.zip
+            
         env:
           GITHUB_TOKEN: ${{ github.token }}
